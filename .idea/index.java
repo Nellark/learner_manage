@@ -93,9 +93,7 @@ class index {
 
 
         do {
-            /*
-             * Prompt the user to confirm if they want to delete a student or not
-             */
+
             System.out.println("Are you sure you want to delete a student? (Yes/No): ");
             String userChoice = input.nextLine().trim().toLowerCase();
 

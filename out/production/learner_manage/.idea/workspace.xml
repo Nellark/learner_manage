@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="607aeac9-396f-4ead-af4b-26b0027f88bc" name="Changes" comment="" />
+    <list default="true" id="607aeac9-396f-4ead-af4b-26b0027f88bc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/index.java" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/index.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,10 +38,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Index.executor": "Run",
-    "Application.index.executor": "Run",
+    "Application.index.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "ganeth",
+    "git-widget-placeholder": "dev",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -67,6 +69,17 @@
       <updated>1746799355140</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/.idea/index.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/learner_manage$index.ic" NAME="index Coverage Results" MODIFIED="1747046184660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

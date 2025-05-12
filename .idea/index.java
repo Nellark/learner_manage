@@ -1,19 +1,12 @@
-//public class index {
-//    public static void main(String[] args) {
-//
-//    }
-//}
 
-
-
-import model.Student;
+import model.Students;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
 class index {
-    public static List<model.Student> studentList = new ArrayList<>();
+    public static List<model.Students> studentList = new ArrayList<>();
     private static final Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -132,7 +125,7 @@ class index {
 
                     for (int i = 0; i < studentList.size(); i++) {
                         if (studentList.get(i).getStudentName().equalsIgnoreCase(formattedName)) {
-                            model.Student deletedStudent = studentList.remove(i);
+                            model.Students deletedStudent = studentList.remove(i);
 
                             String studentName = deletedStudent.getStudentName().substring(0, 1).toUpperCase() +
                                     deletedStudent.getStudentName().substring(1).toLowerCase();

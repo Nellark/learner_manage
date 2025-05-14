@@ -26,7 +26,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
 
-        students.add(new Student("Jade", 35, 10 ));
+        students.add(new Student("Jade", 35, 10));
         students.add(new Student("Life", 60, 10));
         students.add(new Student("Jack", 77, 10));
 
@@ -55,4 +55,42 @@ public class Main {
             }
 
         } while (select != 0);
-    }}
+    }
+
+
+    static void displayAllStudents(ArrayList<Student> students) {
+        if (students.isEmpty()) {
+            System.out.println("No students found.");
+            return;
+        }
+
+
+        System.out.println("\n--- Student List ---");
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            System.out.println((i + 1) + ". Name: " + s.name + ", Score: " + s.score + ",Grade: " + s.grade);
+        }
+    }
+
+    static void addStudent(ArrayList<Student> students, Scanner input) {
+        System.out.print("Enter student name: ");
+        String name = input.nextLine();
+        System.out.print("Enter student score: ");
+        int score = Integer.parseInt(input.nextLine());
+        System.out.print("Enter student grade: ");
+        int grade = Integer.parseInt(input.nextLine());
+
+        if (grade != 10) {
+
+            System.out.println("Only Grade 10 allowed");
+
+            System.out.print("Enter student grade: ");
+            grade = Integer.parseInt(input.nextLine());
+
+
+            students.add(new Student(name, score, grade));
+            System.out.println("Student added!");
+
+        }
+    }
+}

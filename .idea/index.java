@@ -1,8 +1,6 @@
-import Student
-import java.util.ArrayList;
-import java.util.Scanner;
+//Cannot access Student
 
-class Student {
+ class Student {
     String name;
     int score;
     int grade;
@@ -20,39 +18,3 @@ class Student {
 
 }
 
-public class Main {
-    public static void main(String[] args) {
-        ArrayList<Student> students = new ArrayList<>();
-        Scanner input = new Scanner(System.in);
-
-
-        students.add(new Student("Jade", 35, 10 ));
-        students.add(new Student("Life", 60, 10));
-        students.add(new Student("Jack", 77, 10));
-
-        int select;
-        do {
-            System.out.println("\n--- Grade 10 Students---");
-            System.out.println("1. Display All Students");
-            System.out.println("2. Add Student");
-            System.out.println("3. Update Student");
-            System.out.println("4. Delete Student");
-            System.out.println("5. Average Score");
-            System.out.println("6. Search Student by Name");
-            System.out.println("0. Exit");
-            System.out.print("Select a number: ");
-            select = Integer.parseInt(input.nextLine());
-
-            switch (select) {
-                case 1 -> displayAllStudents(students);
-                case 2 -> addStudent(students, input);
-                case 3 -> updateStudent(students, input);
-                case 4 -> deleteStudent(students, input);
-                case 5 -> calculateAverage(students);
-                case 6 -> searchStudent(students, input);
-                case 0 -> System.out.println("Goodbye!");
-                default -> System.out.println("Invalid choice.");
-            }
-
-        } while (select != 0);
-    }}

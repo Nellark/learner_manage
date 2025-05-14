@@ -164,9 +164,49 @@ class index {
             }
         }
     }
+    public static void searchStudent() {
+        System.out.println("\n---------- Search Student ----------");
+        if (studentList.isEmpty()) {
+            System.out.println("The search did not return any student results at the moment.");
+            return;
+        }else{
+            String choice;
+            do {
 
 
-    public static void deleteStudent() {
+
+                System.out.print("\nEnter Student Name: ");
+                String studentName = input.nextLine().trim();
+
+
+
+
+                Students foundStudent = null;
+                for (Students student : studentList) {
+                    if (student.getStudentName().equalsIgnoreCase(studentName)) {
+                        foundStudent = student;
+                        break;}}
+
+                if (foundStudent != null) {
+                    System.out.println("Student  name found: " + foundStudent.getStudentName());
+                } else {
+                    System.out.println("Student name " + studentName + " not found.");
+                }
+
+
+
+
+                System.out.print("\nDo you want to search another student? (Yes/No): ");
+                choice = input.nextLine().trim().toLowerCase();
+
+            } while (!choice.equals("no") && !choice.equals("n"));
+        }
+    }
+
+
+
+
+public static void deleteStudent() {
 
         System.out.println("\n---------- Delete Student ----------");
         /*

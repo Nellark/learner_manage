@@ -79,19 +79,12 @@ class index {
 
         boolean continueAdding = true;
 
-        /*
-         * Initial user prompt
-         */
 
         System.out.println("Do you want to add a student? (Yes/No (exit)): ");
         String initialChoice = input.nextLine().trim().toLowerCase();
 
         if (initialChoice.equals("yes") || initialChoice.equals("y")) {
             do {
-                /*
-                 *  Confirmation prompt
-                 *  Asking them they want to add a new student / not
-                 */
 
                 System.out.println("Are you sure you want to add a new student? (Yes/No (exit)): ");
                 String userChoice = input.nextLine().trim().toLowerCase();
@@ -202,6 +195,186 @@ class index {
             } while (!choice.equals("no") && !choice.equals("n"));
         }
     }
+    public static void updateStudent() {
+        System.out.println("\n---------- Update Student ----------");
+
+        String studentName;
+        String formatted;
+        /*
+          Check if student list is empty
+         */
+        if (studentList.isEmpty()) {
+            System.out.println("No students available to be updated yet.");
+            return;
+        }
+
+        /*
+         * Outputs all student entries that are currently stored in the system
+         */
+        System.out.println("---------- Current Students ----------");
+        for (int i = 0; i < studentList.size(); i++)
+        {
+            /*
+             * format the student's name it capitalize first letter to lowercase the rest letters
+             */
+            studentName = studentList.get(i).getStudentName().substring(0,1).toUpperCase() +
+                    studentList.get(i).getStudentName().substring(1).toLowerCase();
+            int studentScore = studentList.get(i).getStudentScore();
+            int studentGrade = studentList.get(i).getStudentGrade();
+
+            /*
+             * Outputs all student entries that are currently stored in the system
+             */
+            System.out.println((i + 1) + ". " +
+                    "Student Name: "+ studentName + " | "+
+                    "Student Score: "+ studentScore + " | "+
+                    "Student Grade: "+ studentGrade);
+        }
+
+        boolean changeStudentDetails = true;
+        boolean studentFound = false;
+
+        /*
+         * Prompt the user to confirm if they want to update details
+         * */
+        System.out.println("Do you want to update student details? (Yes/No (exit)): ");
+        String initialChoice = input.nextLine().trim().toLowerCase();
+
+        /*
+         * Check if the user entered "yes"/"y" case-sensitive comparison
+         */
+
+        if (initialChoice.equals("yes") || initialChoice.equals("y")) {
+            while (changeStudentDetails) {
+                /*
+                 * Prompt the user to confirm if they want to delete a student
+                 */
+                System.out.println("Are you sure you want to change student details?, choose the following: (Name, Score, or No to exit): ");
+
+                String userChoice = input.nextLine().trim().toLowerCase();
+
+                switch (userChoice) {
+                    case "name":
+
+                        /*
+                         * Get the student's inputs
+                         */
+                        System.out.print("Enter the existing name of the student: ");
+                        String oldStudentName = input.nextLine().trim();
+
+                        System.out.print("Enter the new name of the student: ");
+                        String newStudentName = input.nextLine();
+
+                        /*
+                         *  Format the old name correctly for comparison
+                         */
+                        String formattedOldName = oldStudentName.substring(0, 1).toUpperCase() + oldStudentName.substring(1).toLowerCase();
+
+                        /*
+                         *  Iterate over the student list to find the matching student
+                         */
+                        for (Students value : studentList) {
+                            /*
+                             *  Format stored student name to match input
+                             */
+
+                            String currentName = value.getStudentName().substring(0, 1).toUpperCase() +
+                                    value.getStudentName().substring(1).toLowerCase();
+
+                            /*
+                             * Check if names match correctly
+                             */
+                            if (currentName.equals(formattedOldName)) {
+                                value.setStudentName(newStudentName);
+                                studentFound = true;
+
+
+                                String newName = value.getStudentName().substring(0, 1).toUpperCase() +
+                                        value.getStudentName().substring(1).toLowerCase();
+
+
+
+                                System.out.println("Updated student details: " + currentName + " > " + newName);
+                                break;
+                            }else{
+
+                                System.out.println("Incorrect old name for " + currentName);
+                            }
+                        }
+
+                        if (!studentFound) {
+                            System.out.println("Student record for " + formattedOldName + " not found, check the name and retry.");
+                        }
+
+
+                        break;
+                    case "score":
+                        int oldScore, newScore;
+
+
+                        System.out.print("Enter name of the student: ");
+                        studentName = input.nextLine().trim().toLowerCase();
+
+                        System.out.print("Enter old student score (0 - 100): ");
+                        oldScore = input.nextInt();
+                        input.nextLine(); // Consume newline
+
+                        System.out.print("Enter new student score (0 - 100): ");
+                        newScore = input.nextInt();
+                        input.nextLine(); // Consume newline
+
+                        /*
+                         * Format stored student name to match input (capitalize first letter)
+                         */
+                        formatted = studentName.substring(0, 1).toUpperCase()
+                                + studentName.substring(1).toLowerCase();
+
+
+                        for (Students student : studentList) {
+
+                            String currentName = student.getStudentName();
+                            int currentScore = student.getStudentScore();
+
+
+                            if (currentName.equalsIgnoreCase(formatted) ){
+                                if (currentScore == oldScore) {
+                                    student.setStudentScore(newScore);
+                                    studentFound = true;
+
+
+                                    System.out.println("Updated student details: " +
+                                            "Student Name: " + currentName + " | " +
+                                            "Old Score: " + currentScore + " > " +
+                                            "New Score: " + newScore);
+                                } else {
+
+                                    System.out.println("Incorrect old score for " + currentName);
+                                }
+                                break;
+                            }
+                        }
+                        if (!studentFound) {
+                            System.out.println("Student '" + formatted + "' not found.");
+                        }
+                        break;
+
+                    case "no":
+                    case "n":
+
+                        System.out.println("Edit(update) student process has been canceled.");
+                        changeStudentDetails = false;
+                        break;
+                    default:
+                        System.out.println("Invalid input, please choose the following (Name, Score or No (exit).");
+                        break;
+                }
+
+            }
+        }else {
+            System.out.println("No student will be updated.");
+        }
+
+    }
 
 
 
@@ -209,9 +382,7 @@ class index {
 public static void deleteStudent() {
 
         System.out.println("\n---------- Delete Student ----------");
-        /*
-         * It check if student list is empty then it will return message
-         */
+
         if (studentList.isEmpty()) {
             System.out.println("No students available to be deleted yet.");
             return;
@@ -239,16 +410,12 @@ public static void deleteStudent() {
                         System.out.println((i + 1) + ". " + "Student Name: " + studentName);
                     }
 
-                    /*
-                     * It ask a user to delete name, all user information will be deleted
-                     */
+
                     System.out.print("\nEnter student name to delete: ");
                     String studentToDelete = input.nextLine().trim();
                     boolean studentFound = false;
 
-                    /*
-                     * It formats name to be deleted
-                     */
+
 
                     String formattedName = studentToDelete.substring(0, 1).toUpperCase() + studentToDelete.substring(1).toLowerCase();
 
@@ -282,9 +449,7 @@ public static void deleteStudent() {
 
                 case "no":
                 case "n":
-                    /*
-                      Closes the delete student function and goes back to the menu.
-                     */
+
                     System.out.println("Deleting student process has been canceled.");
                     continueDelete = false;
                     break;

@@ -19,7 +19,7 @@ class index {
 
             switch (choose) {
                 case 1:
-                    //  addStudent();
+                 addStudent();
                     break;
                 case 2:
                     // displayAllStudents();
@@ -74,7 +74,96 @@ class index {
         System.out.println("\t\t0. Exit");
 
     }
+    public static void addStudent() {
+        System.out.println("\n---------- Add New Student ----------");
 
+        boolean continueAdding = true;
+
+        /*
+         * Initial user prompt
+         */
+
+        System.out.println("Do you want to add a student? (Yes/No (exit)): ");
+        String initialChoice = input.nextLine().trim().toLowerCase();
+
+        if (initialChoice.equals("yes") || initialChoice.equals("y")) {
+            do {
+                /*
+                 *  Confirmation prompt
+                 *  Asking them they want to add a new student / not
+                 */
+
+                System.out.println("Are you sure you want to add a new student? (Yes/No (exit)): ");
+                String userChoice = input.nextLine().trim().toLowerCase();
+
+                switch (userChoice) {
+                    case "yes":
+                    case "y":
+                        System.out.print("Enter student name: ");
+                        String name = input.nextLine();
+
+                        int score;
+                        do {
+                            System.out.print("Enter student score (0 - 100): ");
+                            score = getInput();
+                            if (score < 0 || score > 100) {
+                                System.out.println("Invalid score, please enter a score between 0 and 100.");
+                            }
+                        } while (score < 0 || score > 100);
+
+                        int grade;
+                        do {
+                            System.out.print("Enter student grade (only 10): ");
+                            grade = input.nextInt();
+                            if (grade != 10) {
+                                System.out.println("Invalid grade, please enter a grade 10 only.");
+                            }
+                        } while (grade != 10);
+                        input.nextLine();
+
+
+                        studentList.add(new Students(name, score, grade));
+                        System.out.println("Added student details successfully.");
+
+                        System.out.print("\nDo you want to add another student? (Yes/No (exit)): ");
+                        String continueChoice = input.nextLine().trim().toLowerCase();
+                        continueAdding = continueChoice.equals("yes") || continueChoice.equals("y");
+                        break;
+
+                    case "no":
+                    case "n":
+                        System.out.println("Adding student process has been canceled.");
+                        continueAdding = false;
+                        break;
+
+                    default:
+                        System.out.println("Invalid input, please enter Yes/No (exit).");
+                        break;
+                }
+            } while (continueAdding);
+        } else {
+            System.out.println("No student will be added.");
+        }
+    }
+
+
+    public static void displayAllStudents() {
+        System.out.println("\n---------- All Students ----------");
+        if (studentList.isEmpty()) {
+            System.out.println("No students available to be displayed yet.");
+        } else {
+            for (int i = 0; i < studentList.size(); i++) {
+                String studentName = studentList.get(i).getStudentName().substring(0,1).toUpperCase() +
+                        studentList.get(i).getStudentName().substring(1).toLowerCase();
+                int  studentScore = studentList.get(i).getStudentScore();
+                int studentGrade = studentList.get(i).getStudentGrade();
+                System.out.println("\nStudent #" + (i+1) +":"+
+                        " Student Name: " + studentName +" | "+
+                        " Student Score: "+ studentScore +" | "+
+                        " Student Grade: " + studentGrade);
+            }
+        }
+    }
 
 
     public static void deleteStudent() {

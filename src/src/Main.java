@@ -174,6 +174,37 @@ public class Main {
             System.out.println("Invalid student number.");
         }
     }
+    static void calculateAverage(ArrayList<Student> students) {
+        if (students.isEmpty()) {
+            System.out.println("No students to calculate average.");
+            return;
+        }
+
+        int total = 0;
+        for (Student s : students) {
+            total += s.score;
+        }
+
+        double average = (double) total / students.size();
+        System.out.printf("Average Score of all students: %.2f\n", average);
+    }
+
+    static void searchStudent(ArrayList<Student> students, Scanner input) {
+        System.out.print("Enter student name to search: ");
+        String nameToSearch = input.nextLine().toLowerCase();
+        boolean found = false;
+
+        for (Student s : students) {
+            if (s.name.toLowerCase().contains(nameToSearch)) {
+                System.out.println("Found: Name: " + s.name + ", Score: " + s.score + ", Grade: " + s.grade);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("No student found with the name containing: " + nameToSearch);
+        }
+    }
 
 }
 

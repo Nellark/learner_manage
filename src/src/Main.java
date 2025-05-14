@@ -159,5 +159,21 @@ public class Main {
 
         }
 
+    static void deleteStudent(ArrayList<Student> students, Scanner input) {
+        displayAllStudents(students);
+        if (students.isEmpty()) return;
+
+
+        System.out.print("Enter student number to delete: ");
+        int index = Integer.parseInt(input.nextLine()) - 1;
+
+        if (index >= 0 && index < students.size()) {
+            students.remove(index);
+            System.out.println("Student deleted!");
+        } else {
+            System.out.println("Invalid student number.");
+        }
     }
+
+}
 

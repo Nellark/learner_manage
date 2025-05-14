@@ -1,4 +1,4 @@
-import Student
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -93,4 +93,71 @@ public class Main {
 
         }
     }
-}
+        static void updateStudent(ArrayList<Student> students, Scanner input) {
+            displayAllStudents(students);
+            if (students.isEmpty()) return;
+
+
+            System.out.print("Are you sure you want to update the student ? (y/n): ");
+            String choose = input.nextLine().trim().toLowerCase();
+            if (choose.contains("n"))
+            {
+                System.out.print("Updating student details cancelled ");
+            }
+            else if(choose.contains("y")) {
+
+                System.out.print("Enter student option to update: (name/score): ");
+                String choose1 = input.nextLine().trim().toLowerCase();
+                int index;
+                String newName;
+
+                switch (choose1) {
+                    case "name":
+                        System.out.print("Enter student number to update: ");
+                        index = Integer.parseInt(input.nextLine()) -1;
+
+                        if (index >= 0 && index < students.size()) {
+
+                            System.out.print("Enter new name: ");
+                            newName = input.nextLine();
+
+                            students.get(index).name = newName;
+
+                            System.out.println("Student updated " + newName);
+                        }else {
+                            System.out.println("Invalid student number.");
+                        }
+
+                        break;
+                    case "score":
+
+                        System.out.print("Enter student number to update: ");
+                        index = Integer.parseInt(input.nextLine()) - 1;
+
+                        if (index >= 0 && index < students.size()) {
+
+                            System.out.print("Enter new score: ");
+                            int score = Integer.parseInt(input.nextLine());
+
+                            students.get(index).score = score;
+
+                            System.out.println("Student updated score" );
+                        } else {
+                            System.out.println("Invalid student number.");
+                        }
+
+                        break;
+                    default:
+                        System.out.println("Invalid choice.");
+                        break;
+
+
+                }
+            }else {
+                System.out.print("Invalid choice. ");
+            }
+
+        }
+
+    }
+

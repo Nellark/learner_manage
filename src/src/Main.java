@@ -28,7 +28,7 @@ public class Main {
 
         students.add(new Student("Jade", 35, 10));
         students.add(new Student("Life", 60, 10));
-        students.add(new Student("Jack", 77, 10));
+        students.add(new Student("jack", 77, 10));
 
         int select;
         do {
@@ -68,30 +68,54 @@ public class Main {
         System.out.println("\n--- Student List ---");
         for (int i = 0; i < students.size(); i++) {
             Student s = students.get(i);
-            System.out.println((i + 1) + ". Name: " + s.name + ", Score: " + s.score + ",Grade: " + s.grade);
+
+           String format = s.name .substring(0,1).toUpperCase().trim() + s.name.substring(1).toLowerCase().trim();
+            System.out.println((i + 1) + ". Name: " + format  + ", Score: " + s.score + ",Grade: " + s.grade);
         }
     }
 
     static void addStudent(ArrayList<Student> students, Scanner input) {
+
+
+        int score;
+        int grade = 10;
+
         System.out.print("Enter student name: ");
-        String name = input.nextLine();
-        System.out.print("Enter student score: ");
-        int score = Integer.parseInt(input.nextLine());
-        System.out.print("Enter student grade: ");
-        int grade = Integer.parseInt(input.nextLine());
+        String name = input.nextLine().trim().toLowerCase();
 
-        if (grade != 10) {
+        while (!name.matches("[a-zA-Z]+")){
+            System.out.println("Invalid name, ony letters are allowed");
+            System.out.print("Enter student name: ");
+             name = input.nextLine().trim().toLowerCase();
+        }
 
-            System.out.println("Only Grade 10 allowed");
+        while(true){
 
-            System.out.print("Enter student grade: ");
-            grade = Integer.parseInt(input.nextLine());
+            System.out.print("Enter student score: ");
+            score = Integer.parseInt(input.nextLine());
+
+            if (score >= 0 && score <= 100){
+                break;
+            }
+            System.out.println("Invalid score");
+
+        }
+
+        /* while(true){
+             System.out.print("Enter student grade: ");
+             grade = Integer.parseInt(input.nextLine());
+
+             if (grade == 10) {
+                 break;
+             }
+             System.out.println("Only Grade 10 allowed");
+             };*/
 
 
             students.add(new Student(name, score, grade));
             System.out.println("Student added!");
 
-        }
+
     }
         static void updateStudent(ArrayList<Student> students, Scanner input) {
             displayAllStudents(students);
@@ -133,18 +157,20 @@ public class Main {
 
                         System.out.print("Enter student number to update: ");
                         index = Integer.parseInt(input.nextLine()) - 1;
+                       while (true){
 
-                        if (index >= 0 && index < students.size()) {
+                           if (index >= 0 && index < students.size()) {
+                               System.out.print("Enter new score: ");
+                               int score = Integer.parseInt(input.nextLine());
 
-                            System.out.print("Enter new score: ");
-                            int score = Integer.parseInt(input.nextLine());
+                               if (score >= 0 && score <= 100){
 
-                            students.get(index).score = score;
-
-                            System.out.println("Student updated score" );
-                        } else {
-                            System.out.println("Invalid student number.");
-                        }
+                                   students.get(index).score = score;
+                                   System.out.println("Student updated score" );
+                                   break;
+                               }
+                           }
+                       }
 
                         break;
                     default:
@@ -160,20 +186,53 @@ public class Main {
         }
 
     static void deleteStudent(ArrayList<Student> students, Scanner input) {
-        displayAllStudents(students);
-        if (students.isEmpty()) return;
+        if (students.isEmpty()) {
+            System.out.println("No students to delete.");
+            return;
+        }
 
+        while (true) {
+            displayAllStudents(students);
+            System.out.print("Enter student number to delete: ");
+            int index;
 
-        System.out.print("Enter student number to delete: ");
-        int index = Integer.parseInt(input.nextLine()) - 1;
+            try {
+                index = Integer.parseInt(input.nextLine()) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                continue;
+            }
 
-        if (index >= 0 && index < students.size()) {
-            students.remove(index);
-            System.out.println("Student deleted!");
-        } else {
-            System.out.println("Invalid student number.");
+            if (index >= 0 && index < students.size()) {
+                Student toDelete = students.get(index);
+                System.out.print("Are you sure you want to delete " + toDelete.name + "? (y/n): ");
+                String confirm = input.nextLine().trim().toLowerCase();
+
+                if (confirm.equals("y")) {
+                    students.remove(index);
+                    System.out.println("Student deleted!");
+                } else {
+                    System.out.println("Deletion cancelled.");
+                }
+
+                if (students.isEmpty()) {
+                    System.out.println("No students left.");
+                    break;
+                }
+
+                System.out.print("Do you want to delete another student? (y/n): ");
+                String again = input.nextLine().trim().toLowerCase();
+                if (!again.equals("y")) {
+                    System.out.println("Returning to main menu.");
+                    break;
+                }
+            } else {
+                System.out.println("Invalid student number.");
+            }
         }
     }
+
+
     static void calculateAverage(ArrayList<Student> students) {
         if (students.isEmpty()) {
             System.out.println("No students to calculate average.");
@@ -186,7 +245,7 @@ public class Main {
         }
 
         double average = (double) total / students.size();
-        System.out.printf("Average Score of all students: %.2f\n", average);
+        System.out.printf("Average Score of all students: %.2f%%", average);
     }
 
     static void searchStudent(ArrayList<Student> students, Scanner input) {

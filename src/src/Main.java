@@ -7,17 +7,11 @@ class Student {
     int score;
     int grade;
 
-    Student(String name, int score, int grade) {
+    Student(String name, int score) {
         this.name = name;
         this.score = score;
-        //this.grade = grade ;
-        if (grade == 10) {
-            this.grade = grade;
-        }else {
-            System.out.println("Only Grade 10 allowed");
-        }
+        this.grade = 10;
     }
-
 }
 
 public class Main {
@@ -25,14 +19,13 @@ public class Main {
         ArrayList<Student> students = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
-
-        students.add(new Student("Jade", 35, 10));
-        students.add(new Student("Life", 60, 10));
-        students.add(new Student("Jack", 77, 10));
+        students.add(new Student("Jade", 35));
+        students.add(new Student("Life", 60));
+        students.add(new Student("Jack", 77));
 
         int select;
         do {
-            System.out.println("\n--- Grade 10 Students---");
+            System.out.println("\n--- Grade 10 Students ---");
             System.out.println("1. Display All Students");
             System.out.println("2. Add Student");
             System.out.println("3. Update Student");
@@ -57,42 +50,50 @@ public class Main {
         } while (select != 0);
     }
 
-
     static void displayAllStudents(ArrayList<Student> students) {
         if (students.isEmpty()) {
             System.out.println("No students found.");
             return;
         }
 
-
         System.out.println("\n--- Student List ---");
         for (int i = 0; i < students.size(); i++) {
             Student s = students.get(i);
-            System.out.println((i + 1) + ". Name: " + s.name + ", Score: " + s.score + ",Grade: " + s.grade);
+            System.out.println((i + 1) + ". Name: " + s.name + ", Score: " + s.score + ", Grade: " + s.grade);
         }
     }
+
 
     static void addStudent(ArrayList<Student> students, Scanner input) {
         System.out.print("Enter student name: ");
         String name = input.nextLine();
-        System.out.print("Enter student score: ");
-        int score = Integer.parseInt(input.nextLine());
-        System.out.print("Enter student grade: ");
-        int grade = Integer.parseInt(input.nextLine());
 
-        if (grade != 10) {
-
-            System.out.println("Only Grade 10 allowed");
-
-            System.out.print("Enter student grade: ");
-            grade = Integer.parseInt(input.nextLine());
-
-
-            students.add(new Student(name, score, grade));
-            System.out.println("Student added!");
-
+        if (name.trim().isEmpty() || !name.matches("[^0-9]+")) {
+            System.out.println("Invalid name. Name must not be empty or contain numbers.");
+            return;
         }
+
+        System.out.print("Enter student score (0-100): ");
+        String scoreInput = input.nextLine();
+
+        if (!scoreInput.matches("[0-9]+")) {
+            System.out.println("Invalid score. Score must be a number.");
+            return;
+        }
+
+        int score = Integer.parseInt(scoreInput);
+        if (score < 0 || score > 100) {
+            System.out.println("Score must be between 0 and 100.");
+            return;
+        }
+
+        students.add(new Student(name, score));
+        System.out.println("Student added successfully.");
     }
+
+
+
+
         static void updateStudent(ArrayList<Student> students, Scanner input) {
             displayAllStudents(students);
             if (students.isEmpty()) return;
@@ -160,34 +161,54 @@ public class Main {
         }
 
     static void deleteStudent(ArrayList<Student> students, Scanner input) {
-        displayAllStudents(students);
-        if (students.isEmpty()) return;
-
-
-        System.out.print("Enter student number to delete: ");
-        int index = Integer.parseInt(input.nextLine()) - 1;
-
-        if (index >= 0 && index < students.size()) {
-            students.remove(index);
-            System.out.println("Student deleted!");
-        } else {
-            System.out.println("Invalid student number.");
-        }
-    }
-    static void calculateAverage(ArrayList<Student> students) {
         if (students.isEmpty()) {
-            System.out.println("No students to calculate average.");
+            System.out.println("No students to delete.");
             return;
         }
 
-        int total = 0;
-        for (Student s : students) {
-            total += s.score;
-        }
+        while (true) {
+            displayAllStudents(students);
+            System.out.println("Choose from number (1 - " + students.size() + ") to delete:");
+            int index;
 
-        double average = (double) total / students.size();
-        System.out.printf("Average Score of all students: %.2f\n", average);
+            try {
+                index = Integer.parseInt(input.nextLine()) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                continue;
+            }
+
+            if (index >= 0 && index < students.size()) {
+                Student toDelete = students.get(index);
+                System.out.print("Are you sure you want to delete " + toDelete.name + "? (y/n): ");
+                String confirm = input.nextLine().trim().toLowerCase();
+
+                if (confirm.equals("y")) {
+                    students.remove(index);
+                    System.out.println("Student deleted!");
+                } else {
+                    System.out.println("Deletion cancelled.");
+                }
+
+                if (students.isEmpty()) {
+                    System.out.println("No students left.");
+                    break;
+                }
+
+                System.out.print("Do you want to delete another student? (y/n): ");
+                String again = input.nextLine().trim().toLowerCase();
+                if (!again.equals("y")) {
+                    System.out.println("Returning to main menu.");
+                    break;
+                }
+            } else {
+                System.out.println("Invalid student number.");
+            }
+        }
     }
+
+
+
 
     static void searchStudent(ArrayList<Student> students, Scanner input) {
         System.out.print("Enter student name to search: ");
@@ -195,7 +216,7 @@ public class Main {
         boolean found = false;
 
         for (Student s : students) {
-            if (s.name.toLowerCase().contains(nameToSearch)) {
+            if (s.name.toLowerCase().equals(nameToSearch)) {
                 System.out.println("Found: Name: " + s.name + ", Score: " + s.score + ", Grade: " + s.grade);
                 found = true;
             }

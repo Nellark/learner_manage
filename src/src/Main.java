@@ -7,17 +7,11 @@ class Student {
     int score;
     int grade;
 
-    Student(String name, int score, int grade) {
+    Student(String name, int score) {
         this.name = name;
         this.score = score;
-        //this.grade = grade ;
-        if (grade == 10) {
-            this.grade = grade;
-        }else {
-            System.out.println("Only Grade 10 allowed");
-        }
+        this.grade = 10;
     }
-
 }
 
 public class Main {
@@ -25,14 +19,13 @@ public class Main {
         ArrayList<Student> students = new ArrayList<>();
         Scanner input = new Scanner(System.in);
 
-
-        students.add(new Student("Jade", 35, 10));
-        students.add(new Student("Life", 60, 10));
-        students.add(new Student("jack", 77, 10));
+        students.add(new Student("Jade", 35));
+        students.add(new Student("Life", 60));
+        students.add(new Student("Jack", 77));
 
         int select;
         do {
-            System.out.println("\n--- Grade 10 Students---");
+            System.out.println("\n--- Grade 10 Students ---");
             System.out.println("1. Display All Students");
             System.out.println("2. Add Student");
             System.out.println("3. Update Student");
@@ -57,133 +50,115 @@ public class Main {
         } while (select != 0);
     }
 
-
     static void displayAllStudents(ArrayList<Student> students) {
         if (students.isEmpty()) {
             System.out.println("No students found.");
             return;
         }
 
-
         System.out.println("\n--- Student List ---");
         for (int i = 0; i < students.size(); i++) {
             Student s = students.get(i);
-
-           String format = s.name .substring(0,1).toUpperCase().trim() + s.name.substring(1).toLowerCase().trim();
-            System.out.println((i + 1) + ". Name: " + format  + ", Score: " + s.score + ",Grade: " + s.grade);
+            System.out.println((i + 1) + ". Name: " + s.name + ", Score: " + s.score + ", Grade: " + s.grade);
         }
     }
+
 
     static void addStudent(ArrayList<Student> students, Scanner input) {
-
-
-        int score;
-        int grade = 10;
-
         System.out.print("Enter student name: ");
-        String name = input.nextLine().trim().toLowerCase();
+        String name = input.nextLine();
 
-        while (!name.matches("[a-zA-Z]+")){
-            System.out.println("Invalid name, ony letters are allowed");
-            System.out.print("Enter student name: ");
-             name = input.nextLine().trim().toLowerCase();
+        if (name.trim().isEmpty() || !name.matches("[^0-9]+")) {
+            System.out.println("Invalid name. Name must not be empty or contain numbers.");
+            return;
         }
 
-        while(true){
+        System.out.print("Enter student score (0-100): ");
+        String scoreInput = input.nextLine();
 
-            System.out.print("Enter student score: ");
-            score = Integer.parseInt(input.nextLine());
+        if (!scoreInput.matches("[0-9]+")) {
+            System.out.println("Invalid score. Score must be a number.");
+            return;
+        }
 
-            if (score >= 0 && score <= 100){
-                break;
+        int score = Integer.parseInt(scoreInput);
+        if (score < 0 || score > 100) {
+            System.out.println("Score must be between 0 and 100.");
+            return;
+        }
+
+        students.add(new Student(name, score));
+        System.out.println("Student added successfully.");
+    }
+
+
+
+
+    static void updateStudent(ArrayList<Student> students, Scanner input) {
+        displayAllStudents(students);
+        if (students.isEmpty()) return;
+
+
+        System.out.print("Are you sure you want to update the student ? (y/n): ");
+        String choose = input.nextLine().trim().toLowerCase();
+        if (choose.contains("n"))
+        {
+            System.out.print("Updating student details cancelled ");
+        }
+        else if(choose.contains("y")) {
+
+            System.out.print("Enter student option to update: (name/score): ");
+            String choose1 = input.nextLine().trim().toLowerCase();
+            int index;
+            String newName;
+
+            switch (choose1) {
+                case "name":
+                    System.out.println("Choose from number (1 - " + students.size() + ") to update:");
+                    index = Integer.parseInt(input.nextLine()) -1;
+
+                    if (index >= 0 && index < students.size()) {
+
+                        System.out.print("Enter new name: ");
+                        newName = input.nextLine();
+
+                        students.get(index).name = newName;
+
+                        System.out.println("Student updated " + newName);
+                    }else {
+                        System.out.println("Invalid student number.");
+                    }
+
+                    break;
+                case "score":
+
+                    System.out.println("Choose from number (1 - " + students.size() + ") to update:");
+                    index = Integer.parseInt(input.nextLine()) - 1;
+
+                    if (index >= 0 && index < students.size()) {
+
+                        System.out.print("Enter new score: ");
+                        int score = Integer.parseInt(input.nextLine());
+
+                        students.get(index).score = score;
+
+                        System.out.println("Student updated score" );
+                    } else {
+                        System.out.println("Invalid number.");
+                    }
+
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+
+
             }
-            System.out.println("Invalid score");
-
+        }else {
+            System.out.print("Invalid choice. ");
         }
-
-        /* while(true){
-             System.out.print("Enter student grade: ");
-             grade = Integer.parseInt(input.nextLine());
-
-             if (grade == 10) {
-                 break;
-             }
-             System.out.println("Only Grade 10 allowed");
-             };*/
-
-
-            students.add(new Student(name, score, grade));
-            System.out.println("Student added!");
-
 
     }
-        static void updateStudent(ArrayList<Student> students, Scanner input) {
-            displayAllStudents(students);
-            if (students.isEmpty()) return;
-
-
-            System.out.print("Are you sure you want to update the student ? (y/n): ");
-            String choose = input.nextLine().trim().toLowerCase();
-            if (choose.contains("n"))
-            {
-                System.out.print("Updating student details cancelled ");
-            }
-            else if(choose.contains("y")) {
-
-                System.out.print("Enter student option to update: (name/score): ");
-                String choose1 = input.nextLine().trim().toLowerCase();
-                int index;
-                String newName;
-
-                switch (choose1) {
-                    case "name":
-                        System.out.print("Enter student number to update: ");
-                        index = Integer.parseInt(input.nextLine()) -1;
-
-                        if (index >= 0 && index < students.size()) {
-
-                            System.out.print("Enter new name: ");
-                            newName = input.nextLine();
-
-                            students.get(index).name = newName;
-
-                            System.out.println("Student updated " + newName);
-                        }else {
-                            System.out.println("Invalid student number.");
-                        }
-
-                        break;
-                    case "score":
-
-                        System.out.print("Enter student number to update: ");
-                        index = Integer.parseInt(input.nextLine()) - 1;
-                       while (true){
-
-                           if (index >= 0 && index < students.size()) {
-                               System.out.print("Enter new score: ");
-                               int score = Integer.parseInt(input.nextLine());
-
-                               if (score >= 0 && score <= 100){
-
-                                   students.get(index).score = score;
-                                   System.out.println("Student updated score" );
-                                   break;
-                               }
-                           }
-                       }
-
-                        break;
-                    default:
-                        System.out.println("Invalid choice.");
-                        break;
-
-
-                }
-            }else {
-                System.out.print("Invalid choice. ");
-            }
-
-        }
 
     static void deleteStudent(ArrayList<Student> students, Scanner input) {
         if (students.isEmpty()) {
@@ -193,7 +168,7 @@ public class Main {
 
         while (true) {
             displayAllStudents(students);
-            System.out.print("Enter student number to delete: ");
+            System.out.println("Choose from number (1 - " + students.size() + ") to delete:");
             int index;
 
             try {
@@ -248,13 +223,16 @@ public class Main {
         System.out.printf("Average Score of all students: %.2f%%", average);
     }
 
+
+
+
     static void searchStudent(ArrayList<Student> students, Scanner input) {
         System.out.print("Enter student name to search: ");
         String nameToSearch = input.nextLine().toLowerCase();
         boolean found = false;
 
         for (Student s : students) {
-            if (s.name.toLowerCase().contains(nameToSearch)) {
+            if (s.name.toLowerCase().equals(nameToSearch)) {
                 System.out.println("Found: Name: " + s.name + ", Score: " + s.score + ", Grade: " + s.grade);
                 found = true;
             }

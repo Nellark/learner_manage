@@ -7,12 +7,10 @@ class Student {
     int score;
     int grade;
 
-
     Student(String name, int score) {
         this.name = name;
         this.score = score;
         this.grade = 10;
-
     }
 }
 
@@ -67,31 +65,48 @@ public class Main {
 
 
     static void addStudent(ArrayList<Student> students, Scanner input) {
-        System.out.print("Enter student name: ");
-        String name = input.nextLine();
+        while (true) {
+            System.out.print("Enter student name: ");
+            String name = input.nextLine();
 
-        if (name.trim().isEmpty() || !name.matches("[^0-9]+")) {
-            System.out.println("Invalid name. Name must not be empty or contain numbers.");
-            return;
+            if (name.trim().isEmpty() || !name.matches("[^0-9]+")) {
+                System.out.println("Invalid name. Name must not be empty or contain numbers.");
+                continue;
+            }
+
+            System.out.print("Enter student score (0-100): ");
+            String scoreInput = input.nextLine();
+
+            if (!scoreInput.matches("[0-9]+")) {
+                System.out.println("Invalid score. Score must be a number.");
+                continue;
+            }
+
+            int score = Integer.parseInt(scoreInput);
+            if (score < 0 || score > 100) {
+                System.out.println("Score must be between 0 and 100.");
+                continue;
+            }
+
+            students.add(new Student(name, score));
+            System.out.println("Student added successfully.");
+
+            // Ask if user wants to add another student
+            while (true) {
+                System.out.print("Do you want to add another student? (y/n): ");
+                String again = input.nextLine().trim().toLowerCase();
+                if (again.equals("y")) {
+                    break; // exit inner loop to add another student
+                } else if (again.equals("n")) {
+                    System.out.println("Returning to main menu.");
+                    return; // exit method
+                } else {
+                    System.out.println("Invalid input. Please enter 'y' or 'n'.");
+                }
+            }
         }
-
-        System.out.print("Enter student score (0-100): ");
-        String scoreInput = input.nextLine();
-
-        if (!scoreInput.matches("[0-9]+")) {
-            System.out.println("Invalid score. Score must be a number.");
-            return;
-        }
-
-        int score = Integer.parseInt(scoreInput);
-        if (score < 0 || score > 100) {
-            System.out.println("Score must be between 0 and 100.");
-            return;
-        }
-
-        students.add(new Student(name, score));
-        System.out.println("Student added successfully.");
     }
+
 
 
 
@@ -246,4 +261,5 @@ public class Main {
     }
 
 }
+
 

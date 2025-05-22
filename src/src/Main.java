@@ -6,7 +6,6 @@ class Student {
     String name;
     int score;
     int grade;
-    int average;
 
 
     Student(String name, int score) {
